@@ -5,12 +5,18 @@ import requests
 import json
 import urllib3
 import os
+import argparse
+import yaml
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 
 def main():
+    parser = argparse.ArgumentParser(description='Setup Prometheus configuration for Hammerspace cluster')
+    parser.add_argument('--existing-config', type=str, help='Path to existing prometheus.yml file to append to')
+    args = parser.parse_args()
+    
     cluster_hostname = os.getenv("HS_HOSTNAME") or input("Cluster hostname: ")
     username = os.getenv("HS_USERNAME") or input("Username: ")
     password = os.getenv("HS_PASSWORD") or getpass.getpass("Password: ")
@@ -122,7 +128,7 @@ def main():
                 
         test_metrics_endpoints(cluster_hostname, anvil_nodes, dsx_nodes)
         
-        generate_prometheus_yaml(cluster_hostname, anvil_nodes, dsx_nodes)
+        generate_prometheus_yaml(cluster_hostname, anvil_nodes, dsx_nodes, args.existing_config)
         
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
@@ -173,91 +179,185 @@ def test_metrics_endpoints(cluster_hostname, anvil_nodes, dsx_nodes):
         except Exception as e:
             print(f"{node_type} {hostname}:{port} - Error: {str(e)}")
 
-def generate_prometheus_yaml(cluster_hostname, anvil_nodes, dsx_nodes):
+def generate_prometheus_yaml(cluster_hostname, anvil_nodes, dsx_nodes, existing_config_path=None):
     # Extract cluster shortname (first part before first dot)
     cluster_shortname = cluster_hostname.split('.')[0]
     
-    # Embedded prometheus config template
-    config_template = f"""global:
-  evaluation_interval: 60s
-  external_labels:
-    monitor: hammerspace_monitor
-  scrape_interval: 60s
-
-scrape_configs:
-- job_name: prometheus
-  static_configs:
-  - labels:
-      node_type: prometheus
-    targets:
-    - localhost:9090
-
-### Hammerspace Cluster job
-- job_name: cluster
-  fallback_scrape_protocol: "PrometheusText0.0.4"
-  static_configs:
-  - labels:
-      cluster: {cluster_shortname}
-      cluster_hostname: {cluster_hostname}
-      instance: {cluster_shortname}
-      node_type: cluster
-    targets:
-    - {cluster_hostname}:9101
-    - {cluster_hostname}:9102
-    - {cluster_hostname}:9103
-
-### Hammerspace Anvil job
-- job_name: anvil_nodes
-  static_configs:"""
-
-    # Add ANVIL nodes
+    # Create hammerspace-specific scrape configs
+    hammerspace_scrape_configs = []
+    
+    # Cluster job
+    cluster_job = {
+        'job_name': 'cluster',
+        'fallback_scrape_protocol': 'PrometheusText0.0.4',
+        'static_configs': [{
+            'labels': {
+                'cluster': cluster_shortname,
+                'cluster_hostname': cluster_hostname,
+                'instance': cluster_shortname,
+                'node_type': 'cluster'
+            },
+            'targets': [
+                f'{cluster_hostname}:9101',
+                f'{cluster_hostname}:9102',
+                f'{cluster_hostname}:9103'
+            ]
+        }]
+    }
+    hammerspace_scrape_configs.append(cluster_job)
+    
+    # ANVIL nodes job
     if anvil_nodes:
+        anvil_static_configs = []
         sorted_anvil_nodes = sorted(anvil_nodes, key=lambda x: x.get('name', ''))
         for node in sorted_anvil_nodes:
             node_hostname = node.get('name', '')
             node_shortname = node_hostname.split('.')[0]
             
-            config_template += f"""
-  - labels:
-      cluster: {cluster_shortname}
-      cluster_hostname: {cluster_hostname}
-      instance: {node_shortname}
-      instance_hostname: {node_hostname}
-      node_type: anvil
-    targets:
-    - {node_hostname}:9100"""
-
-    config_template += """
-
-### Hammerspace DSX job
-- job_name: dsx_nodes
-  fallback_scrape_protocol: "PrometheusText0.0.4"
-  static_configs:"""
-
-    # Add DSX nodes
+            anvil_static_configs.append({
+                'labels': {
+                    'cluster': cluster_shortname,
+                    'cluster_hostname': cluster_hostname,
+                    'instance': node_shortname,
+                    'instance_hostname': node_hostname,
+                    'node_type': 'anvil'
+                },
+                'targets': [f'{node_hostname}:9100']
+            })
+        
+        anvil_job = {
+            'job_name': 'anvil_nodes',
+            'static_configs': anvil_static_configs
+        }
+        hammerspace_scrape_configs.append(anvil_job)
+    
+    # DSX nodes job
     if dsx_nodes:
+        dsx_static_configs = []
         sorted_dsx_nodes = sorted(dsx_nodes, key=lambda x: x.get('name', ''))
         for node in sorted_dsx_nodes:
             node_hostname = node.get('name', '')
             node_shortname = node_hostname.split('.')[0]
             
-            config_template += f"""
-  - labels:
-      cluster: {cluster_shortname}
-      cluster_hostname: {cluster_hostname}
-      instance: {node_shortname}
-      instance_hostname: {node_hostname}
-      node_type: dsx
-    targets:
-    - {node_hostname}:9100
-    - {node_hostname}:9105"""
-
-    # Write the final config
-    with open('hammerspace_prometheus.yml', 'w') as f:
-        f.write(config_template)
-    print("")
-    print(f"Generated hammerspace_prometheus.yml with for {cluster_shortname} with {len(anvil_nodes)} ANVIL nodes and {len(dsx_nodes)} DSX nodes")
-    print("")
+            dsx_static_configs.append({
+                'labels': {
+                    'cluster': cluster_shortname,
+                    'cluster_hostname': cluster_hostname,
+                    'instance': node_shortname,
+                    'instance_hostname': node_hostname,
+                    'node_type': 'dsx'
+                },
+                'targets': [
+                    f'{node_hostname}:9100',
+                    f'{node_hostname}:9105'
+                ]
+            })
+        
+        dsx_job = {
+            'job_name': 'dsx_nodes',
+            'fallback_scrape_protocol': 'PrometheusText0.0.4',
+            'static_configs': dsx_static_configs
+        }
+        hammerspace_scrape_configs.append(dsx_job)
+    
+    if existing_config_path:
+        # Load existing prometheus config
+        try:
+            with open(existing_config_path, 'r') as f:
+                existing_config = yaml.safe_load(f)
+            
+            if 'scrape_configs' not in existing_config:
+                existing_config['scrape_configs'] = []
+            
+            # Track what we added
+            added_targets = []
+            
+            # For each hammerspace job, either append to existing job or create new one
+            for new_job in hammerspace_scrape_configs:
+                job_name = new_job['job_name']
+                existing_job = None
+                
+                # Find existing job with same name
+                for job in existing_config['scrape_configs']:
+                    if job.get('job_name') == job_name:
+                        existing_job = job
+                        break
+                
+                if existing_job:
+                    # Append static_configs to existing job
+                    if 'static_configs' not in existing_job:
+                        existing_job['static_configs'] = []
+                    
+                    for new_static_config in new_job['static_configs']:
+                        # Check for duplicate targets
+                        new_targets = set(new_static_config['targets'])
+                        is_duplicate = False
+                        
+                        for existing_static_config in existing_job['static_configs']:
+                            existing_targets = set(existing_static_config.get('targets', []))
+                            if new_targets & existing_targets:  # If there's any overlap
+                                print(f"Skipping duplicate targets for job '{job_name}': {new_targets & existing_targets}")
+                                is_duplicate = True
+                                break
+                        
+                        if not is_duplicate:
+                            existing_job['static_configs'].append(new_static_config)
+                            added_targets.extend(new_targets)
+                else:
+                    # Create new job
+                    existing_config['scrape_configs'].append(new_job)
+                    for static_config in new_job['static_configs']:
+                        added_targets.extend(static_config['targets'])
+            
+            # Write back to existing file
+            with open(existing_config_path, 'w') as f:
+                yaml.dump(existing_config, f, default_flow_style=False, indent=2)
+            
+            print("")
+            print(f"Updated Prometheus configuration in {existing_config_path}")
+            print(f"Added {cluster_shortname} with {len(anvil_nodes)} ANVIL nodes and {len(dsx_nodes)} DSX nodes")
+            if added_targets:
+                print(f"Added {len(added_targets)} new targets")
+            print("")
+            
+        except FileNotFoundError:
+            print(f"Error: Could not find existing config file: {existing_config_path}")
+            return
+        except yaml.YAMLError as e:
+            print(f"Error: Could not parse existing YAML config: {e}")
+            return
+    else:
+        # Create new standalone config
+        config = {
+            'global': {
+                'evaluation_interval': '60s',
+                'external_labels': {
+                    'monitor': 'hammerspace_monitor'
+                },
+                'scrape_interval': '60s'
+            },
+            'scrape_configs': [
+                {
+                    'job_name': 'prometheus',
+                    'static_configs': [{
+                        'labels': {
+                            'node_type': 'prometheus'
+                        },
+                        'targets': ['localhost:9090']
+                    }]
+                }
+            ]
+        }
+        
+        config['scrape_configs'].extend(hammerspace_scrape_configs)
+        
+        # Write the final config
+        with open('hammerspace_prometheus.yml', 'w') as f:
+            yaml.dump(config, f, default_flow_style=False, indent=2)
+        
+        print("")
+        print(f"Generated hammerspace_prometheus.yml for {cluster_shortname} with {len(anvil_nodes)} ANVIL nodes and {len(dsx_nodes)} DSX nodes")
+        print("")
 
 if __name__ == "__main__":
     main()
