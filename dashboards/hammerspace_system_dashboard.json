@@ -6935,7 +6935,7 @@
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
-                "drawStyle": "points",
+                "drawStyle": "line",
                 "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -6945,7 +6945,7 @@
                 },
                 "lineInterpolation": "linear",
                 "lineWidth": 1,
-                "pointSize": 2,
+                "pointSize": 5,
                 "scaleDistribution": {
                   "type": "log",
                   "log": 10
@@ -7003,14 +7003,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "topk(10, avg_over_time(sum by(volume) (label_replace(rate(node_mountstats_nfs_operations_received_bytes_total{cluster='${cluster}',operation='WRITE'}[$step]), 'volume', '$1', 'export', '.*:(.*)$'))[${time_span}]))",
+              "expr": "sum by (node_id) (label_replace(rate(node_nfsd_disk_bytes_read_total{cluster='${cluster}',node_type='dsx'}[$step]), 'node_id', '$1', 'instance', '([^.]+).*'))",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "{{volume}}",
+              "legendFormat": "{{node_id}}",
               "refId": "A"
             }
           ],
-          "title": "Write Throughput by Share",
+          "title": "NFS Read Throughput by Node",
           "type": "timeseries"
         },
         {
@@ -7027,7 +7027,7 @@
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
-                "drawStyle": "points",
+                "drawStyle": "line",
                 "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -7037,7 +7037,7 @@
                 },
                 "lineInterpolation": "linear",
                 "lineWidth": 1,
-                "pointSize": 2,
+                "pointSize": 5,
                 "scaleDistribution": {
                   "type": "log",
                   "log": 10
@@ -7066,7 +7066,7 @@
                   }
                 ]
               },
-              "unit": "ms"
+              "unit": "Bps"
             },
             "overrides": []
           },
@@ -7095,14 +7095,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "topk(10, avg_over_time(sum by(volume) (label_replace(rate(node_mountstats_nfs_operations_response_time_seconds_total{cluster='${cluster}',operation='WRITE'}[$step]) / rate(node_mountstats_nfs_operations_requests_total{cluster='${cluster}',operation='WRITE'}[$step]), 'volume', '$1', 'export', '.*:(.*)$'))[${time_span}]))",
+              "expr": "sum by (node_id) (label_replace(rate(node_nfsd_disk_bytes_written_total{cluster='${cluster}',node_type='dsx'}[$step]), 'node_id', '$1', 'instance', '([^.]+).*'))",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "{{volume}}",
+              "legendFormat": "{{node_id}}",
               "refId": "A"
             }
           ],
-          "title": "Write Latency by Share",
+          "title": "NFS Write Throughput by Node",
           "type": "timeseries"
         },
         {
@@ -7187,14 +7187,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "topk(10, avg_over_time(sum by(volume) (label_replace(rate(node_mountstats_nfs_operations_received_bytes_total{cluster='${cluster}',operation='READ'}[$step]), 'volume', '$1', 'export', '.*:(.*)$'))[${time_span}]))",
+              "expr": "topk(10, avg_over_time(sum by(volume) (label_replace(rate(node_mountstats_nfs_operations_received_bytes_total{cluster='${cluster}',node_type='dsx',operation='STATFS'}[$step]), 'volume', '$1', 'export', '.*:(.*)$'))[${time_span}]))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{volume}}",
               "refId": "A"
             }
           ],
-          "title": "Read Throughput by Share",
+          "title": "DSX StatFS by Share",
           "type": "timeseries"
         },
         {
@@ -7279,14 +7279,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "topk(10, avg_over_time(sum by(volume) (label_replace(rate(node_mountstats_nfs_operations_response_time_seconds_total{cluster='${cluster}',operation='READ'}[$step]) / rate(node_mountstats_nfs_operations_requests_total{cluster='${cluster}',operation='READ'}[$step]), 'volume', '$1', 'export', '.*:(.*)$'))[${time_span}]))",
+              "expr": "topk(10, avg_over_time(sum by(volume) (label_replace(1000 * rate(node_mountstats_nfs_operations_response_time_seconds_total{cluster='${cluster}',node_type='dsx',operation='STATFS'}[$step]) / rate(node_mountstats_nfs_operations_requests_total{cluster='${cluster}',node_type='dsx',operation='STATFS'}[$step]), 'volume', '$1', 'export', '.*:(.*)$'))[${time_span}]))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{volume}}",
               "refId": "A"
             }
           ],
-          "title": "Read Latency by Share",
+          "title": "DSX StatFS Latency by Share",
           "type": "timeseries"
         }
       ],
@@ -7431,7 +7431,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Hammerspace System Dashboard 20250904_153555",
+  "title": "Hammerspace System Dashboard 20250905_100220",
   "uid": "",
   "version": 0,
   "weekStart": ""
