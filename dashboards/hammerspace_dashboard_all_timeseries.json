@@ -1650,7 +1650,9 @@
                 "lineWidth": 1,
                 "pointSize": 2,
                 "scaleDistribution": {
-                  "type": "linear"
+                  "type": "symlog",
+                  "log": 10,
+                  "linearThreshold": 1
                 },
                 "showPoints": "auto",
                 "spanNulls": false,
@@ -1797,7 +1799,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (volume) (-label_replace(deriv(avg_over_time(node_filesystem_free_bytes{cluster='${cluster}',fstype='nfs4',mountpoint!~'/hs/.*',device=~'.*:/.*',node_type='anvil'}[2m])[6m:5m]), 'volume', '$1', 'device', '([^:]*):(.*)$'))*300",
+              "expr": "sum by (volume) (-label_replace(deriv(avg_over_time(node_filesystem_free_bytes{cluster='${cluster}',fstype='nfs4',mountpoint!~'/hs/.*',device=~'.*:/.*',node_type='anvil',device!~'127[.]0.*'}[2m])[6m:5m]), 'volume', '$1', 'device', '([^:]*):(.*)$'))*300",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{volume}}",
@@ -1833,7 +1835,9 @@
                 "lineWidth": 1,
                 "pointSize": 2,
                 "scaleDistribution": {
-                  "type": "linear"
+                  "type": "symlog",
+                  "log": 10,
+                  "linearThreshold": 1
                 },
                 "showPoints": "auto",
                 "spanNulls": false,
@@ -1887,7 +1891,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (volume) (-label_replace(deriv(avg_over_time(node_filesystem_files_free{cluster='${cluster}',fstype='nfs4',mountpoint!~'/hs/.*',device=~'.*:/.*',node_type='anvil'}[2m])[6m:5m]), 'volume', '$1', 'device', '([^:]*):(.*)$'))*300",
+              "expr": "sum by (volume) (-label_replace(deriv(avg_over_time(node_filesystem_files_free{cluster='${cluster}',fstype='nfs4',mountpoint!~'/hs/.*',device=~'.*:/.*',node_type='anvil',device!~'127[.]0.*'}[2m])[6m:5m]), 'volume', '$1', 'device', '([^:]*):(.*)$'))*300",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{volume}}",
@@ -1977,14 +1981,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (node_id) (label_replace((node_filesystem_size_bytes{cluster='${cluster}',fstype='xfs',node_type='dsx',mountpoint=~'/(pd|hsvol).*'} - node_filesystem_free_bytes{cluster='${cluster}',fstype='xfs',node_type='dsx',mountpoint=~'/(pd|hsvol).*'}) / node_filesystem_size_bytes{cluster='${cluster}',fstype='xfs',node_type='dsx',mountpoint=~'/(pd|hsvol).*'}, 'node_id', '$1', 'instance', '([^.]+).*')) * 100",
+              "expr": "(sum by (node_id) (label_replace(node_filesystem_size_bytes{cluster='${cluster}',fstype='xfs',node_type='dsx',mountpoint=~'/(pd|hsvol).*'} - node_filesystem_free_bytes{cluster='${cluster}',fstype='xfs',node_type='dsx',mountpoint=~'/(pd|hsvol).*'}, 'node_id', '$1', 'instance', '([^.]+).*')) / sum by (node_id) (label_replace(node_filesystem_size_bytes{cluster='${cluster}',fstype='xfs',node_type='dsx',mountpoint=~'/(pd|hsvol).*'}, 'node_id', '$1', 'instance', '([^.]+).*'))) * 100",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{node_id}}",
               "refId": "A"
             }
           ],
-          "title": "DSX Capacity % Utilization",
+          "title": "DSX Capacity % By Node",
           "type": "timeseries"
         },
         {
@@ -2067,7 +2071,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "avg by (volume) (label_replace((node_filesystem_size_bytes{cluster='${cluster}',fstype='nfs4',node_type='anvil',mountpoint!~'/hs/.*',device=~'.*:/.*'} - node_filesystem_free_bytes{cluster='${cluster}',fstype='nfs4',node_type='anvil',mountpoint!~'/hs/.*',device=~'.*:/.*'}) / node_filesystem_size_bytes{cluster='${cluster}',fstype='nfs4',node_type='anvil',mountpoint!~'/hs/.*',device=~'.*:/.*'}, 'volume', '$1', 'device', '(.*)')) * 100",
+              "expr": "avg by (volume) (label_replace(clamp_min((node_filesystem_size_bytes{cluster='${cluster}',fstype='nfs4',node_type='anvil',mountpoint!~'/hs/.*',device=~'.*:/.*',device!~'127[.]0.*'} - node_filesystem_free_bytes{cluster='${cluster}',fstype='nfs4',node_type='anvil',mountpoint!~'/hs/.*',device=~'.*:/.*',device!~'127[.]0.*'}) / node_filesystem_size_bytes{cluster='${cluster}',fstype='nfs4',node_type='anvil',mountpoint!~'/hs/.*',device=~'.*:/.*',device!~'127[.]0.*'}, 0), 'volume', '$1', 'device', '(.*)')) * 100",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{volume}}",
@@ -7993,7 +7997,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Hammerspace Dashboard: All Timeseries 20250908",
+  "title": "Hammerspace System Dashboard 20250908_140734",
   "uid": "",
   "version": 0,
   "weekStart": ""
