@@ -84,8 +84,7 @@
                 "lineWidth": 1,
                 "pointSize": 2,
                 "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
+                  "type": "linear"
                 },
                 "showPoints": "auto",
                 "spanNulls": false,
@@ -121,6 +120,189 @@
             "y": 3
           },
           "id": 3,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (share) (hammerspace_filesystem_open_files{cluster='${cluster}'})",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{share}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Open Files by Share",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 3
+          },
+          "id": 4,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (share) (increase(hammerspace_filesystem_ops_busy_usec{cluster='${cluster}'}[$step])) / 1000000",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{share}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Filesystem Work by Share",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 13
+          },
+          "id": 5,
           "options": {
             "legend": {
               "calcs": [],
@@ -210,9 +392,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 3
+            "y": 13
           },
-          "id": 4,
+          "id": 6,
           "options": {
             "legend": {
               "calcs": [],
@@ -301,9 +483,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 13
+            "y": 23
           },
-          "id": 5,
+          "id": 7,
           "options": {
             "legend": {
               "calcs": [],
@@ -393,9 +575,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 13
+            "y": 23
           },
-          "id": 6,
+          "id": 8,
           "options": {
             "legend": {
               "calcs": [],
@@ -484,9 +666,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 23
+            "y": 33
           },
-          "id": 7,
+          "id": 9,
           "options": {
             "legend": {
               "calcs": [],
@@ -575,9 +757,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 23
+            "y": 33
           },
-          "id": 8,
+          "id": 10,
           "options": {
             "legend": {
               "calcs": [],
@@ -666,9 +848,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 33
+            "y": 43
           },
-          "id": 9,
+          "id": 11,
           "options": {
             "legend": {
               "calcs": [],
@@ -757,9 +939,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 33
+            "y": 43
           },
-          "id": 10,
+          "id": 12,
           "options": {
             "legend": {
               "calcs": [],
@@ -848,9 +1030,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 43
+            "y": 53
           },
-          "id": 11,
+          "id": 13,
           "options": {
             "legend": {
               "calcs": [],
@@ -939,9 +1121,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 43
+            "y": 53
           },
-          "id": 12,
+          "id": 14,
           "options": {
             "legend": {
               "calcs": [],
@@ -969,6 +1151,190 @@
           ],
           "title": "NFS IOPS by Version",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 63
+          },
+          "id": 15,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (node_id) (label_replace(rate(node_nfsd_disk_bytes_read_total{cluster='${cluster}',node_type='dsx'}[$step]), 'node_id', '$1', 'instance', '([^.]+).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{node_id}}",
+              "refId": "A"
+            }
+          ],
+          "title": "NFS Read Throughput by Node",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 63
+          },
+          "id": 16,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (node_id) (label_replace(rate(node_nfsd_disk_bytes_written_total{cluster='${cluster}',node_type='dsx'}[$step]), 'node_id', '$1', 'instance', '([^.]+).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{node_id}}",
+              "refId": "A"
+            }
+          ],
+          "title": "NFS Write Throughput by Node",
+          "type": "timeseries"
         }
       ],
       "title": "Client & Protocol",
@@ -982,7 +1348,7 @@
         "x": 0,
         "y": 3
       },
-      "id": 13,
+      "id": 17,
       "panels": [
         {
           "datasource": {
@@ -1046,7 +1412,7 @@
             "x": 0,
             "y": 4
           },
-          "id": 14,
+          "id": 18,
           "options": {
             "legend": {
               "calcs": [],
@@ -1136,7 +1502,7 @@
             "x": 12,
             "y": 4
           },
-          "id": 15,
+          "id": 19,
           "options": {
             "legend": {
               "calcs": [],
@@ -1179,7 +1545,7 @@
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
-                "drawStyle": "line",
+                "drawStyle": "points",
                 "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -1189,7 +1555,7 @@
                 },
                 "lineInterpolation": "linear",
                 "lineWidth": 1,
-                "pointSize": 5,
+                "pointSize": 2,
                 "scaleDistribution": {
                   "type": "symlog",
                   "log": 10,
@@ -1229,7 +1595,7 @@
             "x": 0,
             "y": 14
           },
-          "id": 16,
+          "id": 20,
           "options": {
             "legend": {
               "calcs": [],
@@ -1272,7 +1638,7 @@
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
-                "drawStyle": "line",
+                "drawStyle": "points",
                 "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -1282,7 +1648,7 @@
                 },
                 "lineInterpolation": "linear",
                 "lineWidth": 1,
-                "pointSize": 5,
+                "pointSize": 2,
                 "scaleDistribution": {
                   "type": "linear"
                 },
@@ -1319,7 +1685,7 @@
             "x": 12,
             "y": 14
           },
-          "id": 17,
+          "id": 21,
           "options": {
             "legend": {
               "calcs": [],
@@ -1362,7 +1728,7 @@
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
-                "drawStyle": "line",
+                "drawStyle": "points",
                 "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -1372,7 +1738,7 @@
                 },
                 "lineInterpolation": "linear",
                 "lineWidth": 1,
-                "pointSize": 5,
+                "pointSize": 2,
                 "scaleDistribution": {
                   "type": "symlog",
                   "log": 10,
@@ -1412,7 +1778,7 @@
             "x": 0,
             "y": 24
           },
-          "id": 18,
+          "id": 22,
           "options": {
             "legend": {
               "calcs": [],
@@ -1455,7 +1821,7 @@
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
-                "drawStyle": "line",
+                "drawStyle": "points",
                 "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -1465,7 +1831,7 @@
                 },
                 "lineInterpolation": "linear",
                 "lineWidth": 1,
-                "pointSize": 5,
+                "pointSize": 2,
                 "scaleDistribution": {
                   "type": "linear"
                 },
@@ -1502,7 +1868,7 @@
             "x": 12,
             "y": 24
           },
-          "id": 19,
+          "id": 23,
           "options": {
             "legend": {
               "calcs": [],
@@ -1592,7 +1958,7 @@
             "x": 0,
             "y": 34
           },
-          "id": 20,
+          "id": 24,
           "options": {
             "legend": {
               "calcs": [],
@@ -1682,7 +2048,7 @@
             "x": 12,
             "y": 34
           },
-          "id": 21,
+          "id": 25,
           "options": {
             "legend": {
               "calcs": [],
@@ -1723,7 +2089,7 @@
         "x": 0,
         "y": 4
       },
-      "id": 22,
+      "id": 26,
       "panels": [
         {
           "datasource": {
@@ -1787,7 +2153,7 @@
             "x": 0,
             "y": 5
           },
-          "id": 23,
+          "id": 27,
           "options": {
             "legend": {
               "calcs": [],
@@ -1878,7 +2244,7 @@
             "x": 12,
             "y": 5
           },
-          "id": 24,
+          "id": 28,
           "options": {
             "legend": {
               "calcs": [],
@@ -1970,7 +2336,7 @@
             "x": 0,
             "y": 15
           },
-          "id": 25,
+          "id": 29,
           "options": {
             "legend": {
               "calcs": [],
@@ -2062,7 +2428,7 @@
             "x": 12,
             "y": 15
           },
-          "id": 26,
+          "id": 30,
           "options": {
             "legend": {
               "calcs": [],
@@ -2154,7 +2520,7 @@
             "x": 0,
             "y": 25
           },
-          "id": 27,
+          "id": 31,
           "options": {
             "legend": {
               "calcs": [],
@@ -2246,7 +2612,7 @@
             "x": 12,
             "y": 25
           },
-          "id": 28,
+          "id": 32,
           "options": {
             "legend": {
               "calcs": [],
@@ -2337,7 +2703,7 @@
             "x": 0,
             "y": 35
           },
-          "id": 29,
+          "id": 33,
           "options": {
             "legend": {
               "calcs": [],
@@ -2428,7 +2794,7 @@
             "x": 12,
             "y": 35
           },
-          "id": 30,
+          "id": 34,
           "options": {
             "legend": {
               "calcs": [],
@@ -2520,7 +2886,7 @@
             "x": 0,
             "y": 45
           },
-          "id": 31,
+          "id": 35,
           "options": {
             "legend": {
               "calcs": [],
@@ -2612,7 +2978,7 @@
             "x": 12,
             "y": 45
           },
-          "id": 32,
+          "id": 36,
           "options": {
             "legend": {
               "calcs": [],
@@ -2653,7 +3019,7 @@
         "x": 0,
         "y": 5
       },
-      "id": 33,
+      "id": 37,
       "panels": [
         {
           "datasource": {
@@ -2718,7 +3084,7 @@
             "x": 0,
             "y": 6
           },
-          "id": 34,
+          "id": 38,
           "options": {
             "legend": {
               "calcs": [],
@@ -2737,289 +3103,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_time_seconds_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "topk(2, label_replace((rate(node_disk_read_time_seconds_total{cluster='${cluster}',node_type='dsx',device=~'nvme.*'}[$step]) + rate(node_disk_write_time_seconds_total{cluster='${cluster}',node_type='dsx',device=~'nvme.*'}[$step])) / (rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx',device=~'nvme.*'}[$step]) + rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx',device=~'nvme.*'}[$step])), 'node_id', '$1', 'instance', '([^.]+).*'))",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
+              "legendFormat": "{{node_id}} : {{device}}",
               "refId": "A"
             }
           ],
-          "title": "Disk Read Latency",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "points",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "vis": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 2,
-                "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "Bps"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 12,
-            "y": 6
-          },
-          "id": 35,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
-              "hide": false,
-              "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
-              "refId": "A"
-            }
-          ],
-          "title": "Disk Read Throughput",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "points",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "vis": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 2,
-                "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "bytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 0,
-            "y": 16
-          },
-          "id": 36,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
-              "hide": false,
-              "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
-              "refId": "A"
-            }
-          ],
-          "title": "Disk Read Size",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "points",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "vis": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 2,
-                "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 12,
-            "y": 16
-          },
-          "id": 37,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
-              "hide": false,
-              "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
-              "refId": "A"
-            }
-          ],
-          "title": "Disk Read OPS",
+          "title": "DSX Slowest Drive Latency NVME",
           "type": "timeseries"
         },
         {
@@ -3082,100 +3173,8 @@
           "gridPos": {
             "h": 10,
             "w": 12,
-            "x": 0,
-            "y": 26
-          },
-          "id": 38,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_write_time_seconds_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
-              "hide": false,
-              "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
-              "refId": "A"
-            }
-          ],
-          "title": "Disk Write Latency",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "points",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "vis": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 2,
-                "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "Bps"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
             "x": 12,
-            "y": 26
+            "y": 6
           },
           "id": 39,
           "options": {
@@ -3196,14 +3195,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "topk(2, label_replace((rate(node_disk_read_time_seconds_total{cluster='${cluster}',node_type='dsx',device!~'(nvme|dm).*'}[$step]) + rate(node_disk_write_time_seconds_total{cluster='${cluster}',node_type='dsx',device!~'nvme.*'}[$step])) / (rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx',device!~'nvme.*'}[$step]) + rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx',device!~'nvme.*'}[$step])), 'node_id', '$1', 'instance', '([^.]+).*'))",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
+              "legendFormat": "{{node_id}} : {{device}}",
               "refId": "A"
             }
           ],
-          "title": "Disk Write Throughput",
+          "title": "DSX Slowest Drive Latency Non-NVME",
           "type": "timeseries"
         },
         {
@@ -3232,8 +3231,7 @@
                 "lineWidth": 1,
                 "pointSize": 2,
                 "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
+                  "type": "linear"
                 },
                 "showPoints": "auto",
                 "spanNulls": false,
@@ -3259,7 +3257,7 @@
                   }
                 ]
               },
-              "unit": "bytes"
+              "unit": "percent"
             },
             "overrides": []
           },
@@ -3267,7 +3265,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 36
+            "y": 16
           },
           "id": 40,
           "options": {
@@ -3288,14 +3286,14 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
+              "expr": "label_replace(topk(3, 100*rate(node_disk_io_time_seconds_total{cluster='${cluster}',node_type='dsx'}[$step])), 'node_id', '$1', 'instance', '([^.]+).*')",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
+              "legendFormat": "{{node_id}} : {{device}}",
               "refId": "A"
             }
           ],
-          "title": "Disk Write Size",
+          "title": "DSX Highest Disk Utilization %",
           "type": "timeseries"
         },
         {
@@ -3324,8 +3322,7 @@
                 "lineWidth": 1,
                 "pointSize": 2,
                 "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
+                  "type": "linear"
                 },
                 "showPoints": "auto",
                 "spanNulls": false,
@@ -3350,7 +3347,8 @@
                     "value": 80
                   }
                 ]
-              }
+              },
+              "unit": "percent"
             },
             "overrides": []
           },
@@ -3358,7 +3356,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 36
+            "y": 16
           },
           "id": 41,
           "options": {
@@ -3379,18 +3377,18 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "label_replace(topk(3, 100*rate(node_disk_io_time_seconds_total{cluster='${cluster}',node_type='anvil',device!~'(dm).*'}[$step])), 'node_id', '$1', 'instance', '([^.]+).*')",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "{{device_type}}",
+              "legendFormat": "{{node_id}} : {{device}}",
               "refId": "A"
             }
           ],
-          "title": "Disk Write OPS",
+          "title": "Anvil Highest Disk Utilization %",
           "type": "timeseries"
         }
       ],
-      "title": "DSX Drives",
+      "title": "Drive Health",
       "type": "row"
     },
     {
@@ -3485,7 +3483,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_time_seconds_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_time_seconds_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -3577,7 +3575,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -3669,7 +3667,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -3760,7 +3758,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -3852,7 +3850,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_write_time_seconds_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_write_time_seconds_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -3944,7 +3942,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -4036,7 +4034,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device_type}}",
@@ -4127,6 +4125,754 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='dsx'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Write OPS",
+          "type": "timeseries"
+        }
+      ],
+      "title": "DSX Drives",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 51,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 8
+          },
+          "id": 52,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_time_seconds_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Read Latency",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 8
+          },
+          "id": 53,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Read Throughput",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 18
+          },
+          "id": 54,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_read_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Read Size",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 18
+          },
+          "id": 55,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_reads_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Read OPS",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 28
+          },
+          "id": 56,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_write_time_seconds_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*')) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Write Latency",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 28
+          },
+          "id": 57,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Write Throughput",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 38
+          },
+          "id": 58,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "sum by (device_type) (label_replace(rate(node_disk_written_bytes_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  )) / sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'  ))",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "{{device_type}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Disk Write Size",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "points",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "vis": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 2,
+                "scaleDistribution": {
+                  "type": "log",
+                  "log": 10
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 38
+          },
+          "id": 59,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
               "expr": "sum by (device_type) (label_replace(rate(node_disk_writes_completed_total{cluster='${cluster}',node_type='anvil'}[$step]), 'device_type', '$1', 'device', '(nvme|sd|md|[a-z]{2}).*'))",
               "hide": false,
               "intervalFactor": 1,
@@ -4147,9 +4893,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 8
       },
-      "id": 51,
+      "id": 60,
       "panels": [
         {
           "datasource": {
@@ -4210,9 +4956,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 8
+            "y": 9
           },
-          "id": 52,
+          "id": 61,
           "options": {
             "legend": {
               "calcs": [],
@@ -4300,9 +5046,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 8
+            "y": 9
           },
-          "id": 53,
+          "id": 62,
           "options": {
             "legend": {
               "calcs": [],
@@ -4390,9 +5136,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 18
+            "y": 19
           },
-          "id": 54,
+          "id": 63,
           "options": {
             "legend": {
               "calcs": [],
@@ -4480,9 +5226,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 18
+            "y": 19
           },
-          "id": 55,
+          "id": 64,
           "options": {
             "legend": {
               "calcs": [],
@@ -4570,9 +5316,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 28
+            "y": 29
           },
-          "id": 56,
+          "id": 65,
           "options": {
             "legend": {
               "calcs": [],
@@ -4660,9 +5406,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 28
+            "y": 29
           },
-          "id": 57,
+          "id": 66,
           "options": {
             "legend": {
               "calcs": [],
@@ -4750,9 +5496,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 38
+            "y": 39
           },
-          "id": 58,
+          "id": 67,
           "options": {
             "legend": {
               "calcs": [],
@@ -4840,9 +5586,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 38
+            "y": 39
           },
-          "id": 59,
+          "id": 68,
           "options": {
             "legend": {
               "calcs": [],
@@ -4930,9 +5676,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 48
+            "y": 49
           },
-          "id": 60,
+          "id": 69,
           "options": {
             "legend": {
               "calcs": [],
@@ -5020,9 +5766,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 48
+            "y": 49
           },
-          "id": 61,
+          "id": 70,
           "options": {
             "legend": {
               "calcs": [],
@@ -5061,9 +5807,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 9
       },
-      "id": 62,
+      "id": 71,
       "panels": [
         {
           "datasource": {
@@ -5125,9 +5871,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 9
+            "y": 10
           },
-          "id": 63,
+          "id": 72,
           "options": {
             "legend": {
               "calcs": [],
@@ -5216,9 +5962,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 9
+            "y": 10
           },
-          "id": 64,
+          "id": 73,
           "options": {
             "legend": {
               "calcs": [],
@@ -5306,9 +6052,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 19
+            "y": 20
           },
-          "id": 65,
+          "id": 74,
           "options": {
             "legend": {
               "calcs": [],
@@ -5396,9 +6142,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 19
+            "y": 20
           },
-          "id": 66,
+          "id": 75,
           "options": {
             "legend": {
               "calcs": [],
@@ -5487,9 +6233,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 29
+            "y": 30
           },
-          "id": 67,
+          "id": 76,
           "options": {
             "legend": {
               "calcs": [],
@@ -5577,9 +6323,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 29
+            "y": 30
           },
-          "id": 68,
+          "id": 77,
           "options": {
             "legend": {
               "calcs": [],
@@ -5667,9 +6413,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 39
+            "y": 40
           },
-          "id": 69,
+          "id": 78,
           "options": {
             "legend": {
               "calcs": [],
@@ -5757,9 +6503,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 39
+            "y": 40
           },
-          "id": 70,
+          "id": 79,
           "options": {
             "legend": {
               "calcs": [],
@@ -5847,9 +6593,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 49
+            "y": 50
           },
-          "id": 71,
+          "id": 80,
           "options": {
             "legend": {
               "calcs": [],
@@ -5868,7 +6614,7 @@
                 "type": "prometheus",
                 "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "hammerspace_actuary_queued_for_mobility_files{cluster='${cluster}'}",
+              "expr": "rate(hammerspace_actuary_queued_for_mobility_files{cluster='${cluster}'}[$step])",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "",
@@ -5938,9 +6684,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 49
+            "y": 50
           },
-          "id": 72,
+          "id": 81,
           "options": {
             "legend": {
               "calcs": [],
@@ -6028,9 +6774,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 59
+            "y": 60
           },
-          "id": 73,
+          "id": 82,
           "options": {
             "legend": {
               "calcs": [],
@@ -6120,9 +6866,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 59
+            "y": 60
           },
-          "id": 74,
+          "id": 83,
           "options": {
             "legend": {
               "calcs": [],
@@ -6161,9 +6907,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 10
       },
-      "id": 75,
+      "id": 84,
       "panels": [
         {
           "datasource": {
@@ -6224,9 +6970,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 10
+            "y": 11
           },
-          "id": 76,
+          "id": 85,
           "options": {
             "legend": {
               "calcs": [],
@@ -6314,9 +7060,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 10
+            "y": 11
           },
-          "id": 77,
+          "id": 86,
           "options": {
             "legend": {
               "calcs": [],
@@ -6406,9 +7152,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 20
+            "y": 21
           },
-          "id": 78,
+          "id": 87,
           "options": {
             "legend": {
               "calcs": [],
@@ -6498,9 +7244,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 20
+            "y": 21
           },
-          "id": 79,
+          "id": 88,
           "options": {
             "legend": {
               "calcs": [],
@@ -6539,9 +7285,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 11
       },
-      "id": 80,
+      "id": 89,
       "panels": [
         {
           "datasource": {
@@ -6603,9 +7349,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 11
+            "y": 12
           },
-          "id": 81,
+          "id": 90,
           "options": {
             "legend": {
               "calcs": [],
@@ -6694,9 +7440,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 11
+            "y": 12
           },
-          "id": 82,
+          "id": 91,
           "options": {
             "legend": {
               "calcs": [],
@@ -6785,9 +7531,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 21
+            "y": 22
           },
-          "id": 83,
+          "id": 92,
           "options": {
             "legend": {
               "calcs": [],
@@ -6876,9 +7622,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 21
+            "y": 22
           },
-          "id": 84,
+          "id": 93,
           "options": {
             "legend": {
               "calcs": [],
@@ -6917,194 +7663,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 12
       },
-      "id": 85,
+      "id": 94,
       "panels": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "vis": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "Bps"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 0,
-            "y": 12
-          },
-          "id": 86,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "expr": "sum by (node_id) (label_replace(rate(node_nfsd_disk_bytes_read_total{cluster='${cluster}',node_type='dsx'}[$step]), 'node_id', '$1', 'instance', '([^.]+).*'))",
-              "hide": false,
-              "intervalFactor": 1,
-              "legendFormat": "{{node_id}}",
-              "refId": "A"
-            }
-          ],
-          "title": "NFS Read Throughput by Node",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "vis": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "log",
-                  "log": 10
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "Bps"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 12,
-            "y": 12
-          },
-          "id": 87,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "expr": "sum by (node_id) (label_replace(rate(node_nfsd_disk_bytes_written_total{cluster='${cluster}',node_type='dsx'}[$step]), 'node_id', '$1', 'instance', '([^.]+).*'))",
-              "hide": false,
-              "intervalFactor": 1,
-              "legendFormat": "{{node_id}}",
-              "refId": "A"
-            }
-          ],
-          "title": "NFS Write Throughput by Node",
-          "type": "timeseries"
-        },
         {
           "datasource": {
             "type": "prometheus",
@@ -7166,9 +7728,9 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 22
+            "y": 13
           },
-          "id": 88,
+          "id": 95,
           "options": {
             "legend": {
               "calcs": [],
@@ -7258,9 +7820,9 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 22
+            "y": 13
           },
-          "id": 89,
+          "id": 96,
           "options": {
             "legend": {
               "calcs": [],
@@ -7431,7 +7993,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Hammerspace System Dashboard 20250905_100220",
+  "title": "Hammerspace Dashboard: All Timeseries 20250908",
   "uid": "",
   "version": 0,
   "weekStart": ""
